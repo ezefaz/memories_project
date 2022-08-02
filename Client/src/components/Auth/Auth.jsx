@@ -1,31 +1,49 @@
 import React, { useState } from 'react';
-import { Avatar, Button, Paper, Grid, Typography, Container, TextField } from '@material-ui/core';
+import { Avatar, Button, Paper, Grid, Typography, Container } from '@material-ui/core';
+import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+
+import Icon from './Icon';
 import Input from './Input';
-
 import useStyles from './styles';
+import { signIn, signUp } from '../../actions/auth';
 
+
+const initialState = { firstName: '', lastName: '', email: '', password: '', confirmPassword: ''}
 
 function Auth() {
     const classes = useStyles();
     const [showPassword, setShowPassword] = useState(false);
     const [isSignUp, setIsSignUp] = useState(false);
+    const [formData, setFormData] = useState(initialState);
+    const dispatch = useDispatch();
+    const history = useHistory();
 
     const handleShowPassword = () => setShowPassword((prevShowPassword) => !prevShowPassword);
 
 
-    const handleSubmit = () => {
+    const handleSubmit = (e) => {
+        e.preventDefault();
 
-    }
+        if(isSignUp) {
+            dispatch(signUp(formData, history))
+        } else {
+            dispatch(signIn(formData, history))
+        }
+    };
 
-    const handleChange = () => {
-
-    }
+    const handleChange = (e) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value
+        })
+    };
 
     const switchMode = () => {
         setIsSignUp((prevIsSignUp) => !prevIsSignUp );
         handleShowPassword(false);
-    }
+    };
 
   return (
     <Container component='main' maxWidth='xs'>
@@ -47,10 +65,10 @@ function Auth() {
                         <Input name='password' label='Password' handleChange={handleChange} type={showPassword ? 'text' : 'password'} handleShowPassword={handleShowPassword} />
                         { isSignUp && <Input name='confirmPassword' label='Confirm Password' handleChange={handleChange} type='password'/>}
                 </Grid>
-                <Button type='submit' fullWith variant='contained' color='primary' className={classes.submit}>
+                <Button type='submit' fullWidth variant='contained' color='primary' className={classes.submit}>
                 { isSignUp ? 'Sign Up' : 'Sign In' }
-                </Button>
-                <Grid container justify='flex-end'>
+                </Button>     
+                <Grid container justifyContent='flex-end'>
                     <Grid item>
                         <Button onClick={switchMode}>
                             { isSignUp ? 'Already have an account? Sign in' 
@@ -61,7 +79,6 @@ function Auth() {
                 </Grid>
             </form>
         </Paper>
-
     </Container>
   )
 }
