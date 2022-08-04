@@ -2,7 +2,7 @@
 
 ![Project Image](https://i.gyazo.com/9ea3e6ed66420fa8af2676c596157797.png)
 
-> This is a ReadMe template to help save you time and effort.
+> This is a preview of what you are going to find here: https://memories-events-app.netlify.app/posts.
 
 ---
 
