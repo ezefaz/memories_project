@@ -40,11 +40,11 @@ Inside the app, you can Sign Up, Login, like & create posts. Also, you have the 
 #### API Reference
 
 ```html
-    <p>npm i</p>
+    npm i
 ```
 
 ```html
-    <p>npm start</p>
+    npm start
 ```
 for both client and server side to start the app
 [Back To The Top](#Memories App)
