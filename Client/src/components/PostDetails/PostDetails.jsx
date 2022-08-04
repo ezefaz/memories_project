@@ -19,11 +19,11 @@ const Post = () => {
     dispatch(getPost(id));
   }, [id]);
 
-  useEffect(() => {
-    if (post) {
-      dispatch(getPostsBySearch({ search: 'none', tags: post?.post?.tags?.join(',') }));
-    }
-  }, [post]);
+  // useEffect(() => {
+  //   if (post) {
+  //     dispatch(getPostsBySearch({ search: 'none', tags: post?.post?.tags?.join(',') }));
+  //   }
+  // }, [post]);
 
   if (!post) return null;
 
@@ -36,8 +36,8 @@ const Post = () => {
       </Paper>
     );
   }
-  
-  const recommendedPosts = posts.filter(({ _id }) => _id !== post._id);
+
+  const recommendedPosts = posts.filter(({ _id }) => _id !== post.post.id);
 
   return (
     <Paper style={{ padding: '20px', borderRadius: '15px' }} elevation={6}>
@@ -50,9 +50,13 @@ const Post = () => {
             </Link>
           ))}
           </Typography>
-          <Typography gutterBottom variant="body1" component="p">{post.post.message}</Typography>
+          <Typography gutterBottom variant="body1" component="p" style={{ margin: '20px 0' }} >{post.post.message}</Typography>
           <Typography variant="h6">
-            Created by: {post.post.name}
+            Created by: 
+            <Link to={`/creators/${post.post.name}`} style={{ textDecoration: 'none', color: '#3f51b5' }}>
+              {` ${post.post.name}`}
+            </Link>
+
           </Typography>
           <Typography variant="body1">{moment(post.post.createdAt).fromNow()}</Typography>
           <Divider style={{ margin: '20px 0' }} />
@@ -66,7 +70,7 @@ const Post = () => {
         </div>
       </div>
       {!!recommendedPosts.length && (
-        <div className={classes.section}>
+        <div className={classes.section} >
           <Typography gutterBottom variant="h5">You might also like:</Typography>
           <Divider />
           <div className={classes.recommendedPosts}>
